@@ -11,6 +11,9 @@ exports.createJob = async (req, res) => {
       company: req.body.company,
       position: req.body.position,
       status: req.body.status,
+      notes: req.body.notes,
+      interviewDate:
+        req.body.interviewDate,
     });
 
     res.status(201).json(job);
@@ -22,58 +25,24 @@ exports.createJob = async (req, res) => {
 };
 
 // ============================
-// Get All Jobs For Logged User
-// ============================
-
-exports.getJobs = async (req, res) => {
-  try {
-    const jobs = await Job.find({
-      user: req.user._id,
-    }).sort({ createdAt: -1 });
-
-    res.json(jobs);
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
-
-// ============================
 // Update Job
 // ============================
 
-exports.updateJob = async (req, res) => {
-  try {
-    const job = await Job.findOne({
-      _id: req.params.id,
-      user: req.user._id,
-    });
+job.company =
+  req.body.company || job.company;
 
-    if (!job) {
-      return res.status(404).json({
-        message: "Job not found",
-      });
-    }
+job.position =
+  req.body.position || job.position;
 
-    job.company =
-      req.body.company || job.company;
+job.status =
+  req.body.status || job.status;
 
-    job.position =
-      req.body.position || job.position;
+job.notes =
+  req.body.notes || job.notes;
 
-    job.status =
-      req.body.status || job.status;
-
-    const updatedJob = await job.save();
-
-    res.json(updatedJob);
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
+job.interviewDate =
+  req.body.interviewDate ||
+  job.interviewDate;
 
 // ============================
 // Delete Job

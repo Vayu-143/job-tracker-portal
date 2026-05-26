@@ -4,6 +4,9 @@ import Navbar from "../components/Navbar";
 import JobForm from "../components/JobForm";
 import JobList from "../components/JobList";
 import Filter from "../components/Filter";
+import StatsChart from "../components/StatsChart";
+
+import InterviewCalendar from "../components/InterviewCalendar";
 
 import API from "../services/api";
 
@@ -128,7 +131,14 @@ function Dashboard() {
             </div>
           </div>
         </div>
+<StatsChart
+  applied={applied}
+  interview={interview}
+  offer={offer}
+  rejected={rejected}
+/>
 
+<InterviewCalendar />
         <JobForm addJob={addJob} />
 
         <hr />
