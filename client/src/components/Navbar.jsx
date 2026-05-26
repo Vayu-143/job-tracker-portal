@@ -1,3 +1,8 @@
+import {
+  useState,
+  useEffect,
+} from "react";
+
 import { useNavigate } from "react-router-dom";
 
 function Navbar() {
@@ -6,6 +11,25 @@ function Navbar() {
   const user = JSON.parse(
     localStorage.getItem("user")
   );
+
+  const [darkMode, setDarkMode] =
+    useState(
+      localStorage.getItem(
+        "darkMode"
+      ) === "true"
+    );
+
+  useEffect(() => {
+    document.body.classList.toggle(
+      "dark",
+      darkMode
+    );
+
+    localStorage.setItem(
+      "darkMode",
+      darkMode
+    );
+  }, [darkMode]);
 
   const logout = () => {
     localStorage.removeItem("user");
@@ -18,10 +42,21 @@ function Navbar() {
         Job Tracker Portal
       </span>
 
-      <div>
+      <div className="d-flex align-items-center">
         <span className="text-light me-3">
           Welcome, {user?.name}
         </span>
+
+        <button
+          className="btn btn-secondary me-2"
+          onClick={() =>
+            setDarkMode(!darkMode)
+          }
+        >
+          {darkMode
+            ? "☀ Light"
+            : "🌙 Dark"}
+        </button>
 
         <button
           className="btn btn-danger"
