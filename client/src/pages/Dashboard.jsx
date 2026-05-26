@@ -1,0 +1,168 @@
+import { useEffect, useState } from "react";
+
+import Navbar from "../components/Navbar";
+import JobForm from "../components/JobForm";
+import JobList from "../components/JobList";
+import Filter from "../components/Filter";
+
+import API from "../services/api";
+
+function Dashboard() {
+  const [jobs, setJobs] = useState([]);
+
+  const [status, setStatus] =
+    useState("");
+
+  const [search, setSearch] =
+    useState("");
+
+  const fetchJobs = async () => {
+    try {
+      const res = await API.get("/jobs");
+
+      setJobs(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const addJob = async (job) => {
+    await API.post("/jobs", job);
+
+    fetchJobs();
+  };
+
+  const deleteJob = async (id) => {
+    await API.delete(`/jobs/${id}`);
+
+    fetchJobs();
+  };
+
+  const updateJob = async (
+    id,
+    updatedJob
+  ) => {
+    await API.put(
+      `/jobs/${id}`,
+      updatedJob
+    );
+
+    fetchJobs();
+  };
+
+  const filteredJobs = jobs.filter(
+    (job) =>
+      job.company
+        .toLowerCase()
+        .includes(
+          search.toLowerCase()
+        ) &&
+      (status
+        ? job.status === status
+        : true)
+  );
+
+  const totalJobs = jobs.length;
+
+  const applied = jobs.filter(
+    (job) =>
+      job.status === "Applied"
+  ).length;
+
+  const interview = jobs.filter(
+    (job) =>
+      job.status === "Interview"
+  ).length;
+
+  const offer = jobs.filter(
+    (job) =>
+      job.status === "Offer"
+  ).length;
+
+  const rejected = jobs.filter(
+    (job) =>
+      job.status === "Rejected"
+  ).length;
+
+  return (
+    <>
+      <Navbar />
+
+      <div className="container mt-4">
+        <h2>Dashboard</h2>
+
+        {/* Statistics */}
+
+        <div className="row mb-4">
+          <div className="col">
+            <div className="card p-3">
+              Total: {totalJobs}
+            </div>
+          </div>
+
+          <div className="col">
+            <div className="card p-3">
+              Applied: {applied}
+            </div>
+          </div>
+
+          <div className="col">
+            <div className="card p-3">
+              Interview: {interview}
+            </div>
+          </div>
+
+          <div className="col">
+            <div className="card p-3">
+              Offer: {offer}
+            </div>
+          </div>
+
+          <div className="col">
+            <div className="card p-3">
+              Rejected: {rejected}
+            </div>
+          </div>
+        </div>
+
+        <JobForm addJob={addJob} />
+
+        <hr />
+
+        {/* Search */}
+
+        <input
+          className="form-control mb-3"
+          placeholder="Search company..."
+          value={search}
+          onChange={(e) =>
+            setSearch(
+              e.target.value
+            )
+          }
+        />
+
+        {/* Status Filter */}
+
+        <Filter
+          selected={status}
+          setSelected={setStatus}
+        />
+
+        {/* Jobs */}
+
+        <JobList
+          jobs={filteredJobs}
+          deleteJob={deleteJob}
+          updateJob={updateJob}
+        />
+      </div>
+    </>
+  );
+}
+
+export default Dashboard;
