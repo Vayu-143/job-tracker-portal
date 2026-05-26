@@ -1,33 +1,35 @@
 body.dark {
-  background-color: #121212;
+  background: #121212;
   color: white;
 }
 
 body.dark .card {
-  background-color: #1e1e1e;
+  background: #1e1e1e;
   color: white;
 }
 
 body.dark .form-control,
-body.dark select,
-body.dark textarea {
-  background-color: #2a2a2a;
+body.dark .form-select {
+  background: #2a2a2a;
   color: white;
   border-color: #444;
 }
 
 body.dark .navbar {
-  background-color: #000 !important;
+  background: #000 !important;
 }
-
-body.dark .container {
+body.dark p,
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6,
+body.dark span,
+body.dark label {
   color: white;
 }
 
 body.dark .text-muted {
-  color: #cccccc !important;
-}
-
-body.dark .alert {
-  color: black;
+  color: #bdbdbd !important;
 }

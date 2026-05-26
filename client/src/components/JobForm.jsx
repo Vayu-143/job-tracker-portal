@@ -1,5 +1,12 @@
 import { useState } from "react";
-
+const [job, setJob] =
+  useState({
+    company: "",
+    position: "",
+    status: "Applied",
+    notes: "",
+    interviewDate: "",
+  });
 function JobForm({ addJob }) {
   const [job, setJob] = useState({
     company: "",
@@ -76,7 +83,10 @@ function JobForm({ addJob }) {
           })
         }
       />
-
+<input
+  type="date"
+  className="form-control mb-2"
+/>
       <input
         type="date"
         className="form-control mb-2"

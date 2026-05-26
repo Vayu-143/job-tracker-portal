@@ -6,7 +6,6 @@ import JobList from "../components/JobList";
 import Filter from "../components/Filter";
 import StatsChart from "../components/StatsChart";
 
-import InterviewCalendar from "../components/InterviewCalendar";
 
 import API from "../services/api";
 
@@ -86,6 +85,15 @@ function Dashboard() {
       job.status === "Offer"
   ).length;
 
+  const successRate =
+  totalJobs > 0
+    ? (
+        (offer /
+          totalJobs) *
+        100
+      ).toFixed(1)
+    : 0;
+
   const rejected = jobs.filter(
     (job) =>
       job.status === "Rejected"
@@ -124,6 +132,12 @@ function Dashboard() {
               Offer: {offer}
             </div>
           </div>
+          <div className="col">
+  <div className="card p-3">
+    Success:
+    {successRate}%
+  </div>
+</div>
 
           <div className="col">
             <div className="card p-3">
@@ -131,15 +145,7 @@ function Dashboard() {
             </div>
           </div>
         </div>
-<StatsChart
-  applied={applied}
-  interview={interview}
-  offer={offer}
-  rejected={rejected}
-/>
 
-<InterviewCalendar />
-        <JobForm addJob={addJob} />
 
         <hr />
 

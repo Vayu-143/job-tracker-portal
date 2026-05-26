@@ -37,17 +37,28 @@ function StatsChart({
           offer,
           rejected,
         ],
+
+        backgroundColor: [
+          "#0d6efd",
+          "#ffc107",
+          "#198754",
+          "#dc3545",
+        ],
       },
     ],
   };
 
   return (
     <div
+      className="card p-3 mb-4"
       style={{
-        maxWidth: "400px",
-        margin: "auto",
+        maxWidth: "500px",
       }}
     >
+      <h5>
+        Application Analytics
+      </h5>
+
       <Pie data={data} />
     </div>
   );

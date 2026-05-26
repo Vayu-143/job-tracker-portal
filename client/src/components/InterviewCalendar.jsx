@@ -1,14 +1,12 @@
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-
 function InterviewCalendar() {
   return (
-    <div className="my-4">
-      <h4>
-        Interview Calendar
-      </h4>
+    <div className="card p-3 my-4">
+      <h4>Interview Calendar</h4>
 
-      <Calendar />
+      <input
+        type="date"
+        className="form-control"
+      />
     </div>
   );
 }

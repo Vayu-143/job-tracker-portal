@@ -13,20 +13,11 @@ function Navbar() {
   );
 
   const [darkMode, setDarkMode] =
-    useState(
-      localStorage.getItem(
-        "darkMode"
-      ) === "true"
-    );
+    useState(false);
 
   useEffect(() => {
     document.body.classList.toggle(
       "dark",
-      darkMode
-    );
-
-    localStorage.setItem(
-      "darkMode",
       darkMode
     );
   }, [darkMode]);
@@ -42,7 +33,7 @@ function Navbar() {
         Job Tracker Portal
       </span>
 
-      <div className="d-flex align-items-center">
+      <div>
         <span className="text-light me-3">
           Welcome, {user?.name}
         </span>
@@ -54,8 +45,8 @@ function Navbar() {
           }
         >
           {darkMode
-            ? "☀ Light"
-            : "🌙 Dark"}
+            ? "Light"
+            : "Dark"}
         </button>
 
         <button
