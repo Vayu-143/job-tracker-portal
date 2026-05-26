@@ -6,22 +6,16 @@ import JobList from "../components/JobList";
 import Filter from "../components/Filter";
 import StatsChart from "../components/StatsChart";
 
-
 import API from "../services/api";
 
 function Dashboard() {
   const [jobs, setJobs] = useState([]);
-
-  const [status, setStatus] =
-    useState("");
-
-  const [search, setSearch] =
-    useState("");
+  const [status, setStatus] = useState("");
+  const [search, setSearch] = useState("");
 
   const fetchJobs = async () => {
     try {
       const res = await API.get("/jobs");
-
       setJobs(res.data);
     } catch (error) {
       console.log(error);
@@ -33,27 +27,37 @@ function Dashboard() {
   }, []);
 
   const addJob = async (job) => {
-    await API.post("/jobs", job);
-
-    fetchJobs();
+    try {
+      await API.post("/jobs", job);
+      fetchJobs();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const deleteJob = async (id) => {
-    await API.delete(`/jobs/${id}`);
-
-    fetchJobs();
+    try {
+      await API.delete(`/jobs/${id}`);
+      fetchJobs();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const updateJob = async (
     id,
     updatedJob
   ) => {
-    await API.put(
-      `/jobs/${id}`,
-      updatedJob
-    );
+    try {
+      await API.put(
+        `/jobs/${id}`,
+        updatedJob
+      );
 
-    fetchJobs();
+      fetchJobs();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const filteredJobs = jobs.filter(
@@ -85,28 +89,30 @@ function Dashboard() {
       job.status === "Offer"
   ).length;
 
-  const successRate =
-  totalJobs > 0
-    ? (
-        (offer /
-          totalJobs) *
-        100
-      ).toFixed(1)
-    : 0;
-
   const rejected = jobs.filter(
     (job) =>
       job.status === "Rejected"
   ).length;
+
+  const successRate =
+    totalJobs > 0
+      ? (
+          ((offer + interview) /
+            totalJobs) *
+          100
+        ).toFixed(1)
+      : 0;
 
   return (
     <>
       <Navbar />
 
       <div className="container mt-4">
-        <h2>Dashboard</h2>
+        <h2 className="mb-4">
+          Dashboard
+        </h2>
 
-        {/* Statistics */}
+        {/* Statistics Cards */}
 
         <div className="row mb-4">
           <div className="col">
@@ -132,12 +138,6 @@ function Dashboard() {
               Offer: {offer}
             </div>
           </div>
-          <div className="col">
-  <div className="card p-3">
-    Success:
-    {successRate}%
-  </div>
-</div>
 
           <div className="col">
             <div className="card p-3">
@@ -146,6 +146,30 @@ function Dashboard() {
           </div>
         </div>
 
+        {/* Analytics Chart */}
+
+        <StatsChart
+          applied={applied}
+          interview={interview}
+          offer={offer}
+          rejected={rejected}
+        />
+
+        {/* Success Rate */}
+
+        <div className="card p-3 my-3 text-center">
+          <h4>
+            🎯 Success Rate
+          </h4>
+
+          <h2 className="text-success">
+            {successRate}%
+          </h2>
+        </div>
+
+        {/* Add Job Form */}
+
+        <JobForm addJob={addJob} />
 
         <hr />
 
@@ -169,7 +193,7 @@ function Dashboard() {
           setSelected={setStatus}
         />
 
-        {/* Jobs */}
+        {/* Job List */}
 
         <JobList
           jobs={filteredJobs}

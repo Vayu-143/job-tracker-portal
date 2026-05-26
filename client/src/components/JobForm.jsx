@@ -1,19 +1,10 @@
 import { useState } from "react";
-const [job, setJob] =
-  useState({
-    company: "",
-    position: "",
-    status: "Applied",
-    notes: "",
-    interviewDate: "",
-  });
+
 function JobForm({ addJob }) {
   const [job, setJob] = useState({
     company: "",
     position: "",
     status: "Applied",
-    notes: "",
-    interviewDate: "",
   });
 
   const submitHandler = (e) => {
@@ -25,8 +16,6 @@ function JobForm({ addJob }) {
       company: "",
       position: "",
       status: "Applied",
-      notes: "",
-      interviewDate: "",
     });
   };
 
@@ -42,6 +31,7 @@ function JobForm({ addJob }) {
             company: e.target.value,
           })
         }
+        required
       />
 
       <input
@@ -54,6 +44,7 @@ function JobForm({ addJob }) {
             position: e.target.value,
           })
         }
+        required
       />
 
       <select
@@ -71,33 +62,6 @@ function JobForm({ addJob }) {
         <option>Offer</option>
         <option>Rejected</option>
       </select>
-
-      <textarea
-        className="form-control mb-2"
-        placeholder="Notes"
-        value={job.notes}
-        onChange={(e) =>
-          setJob({
-            ...job,
-            notes: e.target.value,
-          })
-        }
-      />
-<input
-  type="date"
-  className="form-control mb-2"
-/>
-      <input
-        type="date"
-        className="form-control mb-2"
-        value={job.interviewDate}
-        onChange={(e) =>
-          setJob({
-            ...job,
-            interviewDate: e.target.value,
-          })
-        }
-      />
 
       <button className="btn btn-success">
         Add Job

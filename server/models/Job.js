@@ -28,15 +28,6 @@ const jobSchema = new mongoose.Schema(
       default: "Applied",
     },
 
-    notes: {
-      type: String,
-      default: "",
-    },
-
-    interviewDate: {
-      type: Date,
-    },
-
     applicationDate: {
       type: Date,
       default: Date.now,

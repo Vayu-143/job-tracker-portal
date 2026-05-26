@@ -31,6 +31,7 @@ function StatsChart({
 
     datasets: [
       {
+        label: "Applications",
         data: [
           applied,
           interview,
@@ -44,8 +45,35 @@ function StatsChart({
           "#198754",
           "#dc3545",
         ],
+
+        borderColor: [
+          "#ffffff",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff",
+        ],
+
+        borderWidth: 2,
       },
     ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: true,
+
+    plugins: {
+      legend: {
+        position: "top",
+        labels: {
+          color: "white",
+        },
+      },
+
+      tooltip: {
+        enabled: true,
+      },
+    },
   };
 
   return (
@@ -53,13 +81,17 @@ function StatsChart({
       className="card p-3 mb-4"
       style={{
         maxWidth: "500px",
+        margin: "auto",
       }}
     >
-      <h5>
-        Application Analytics
-      </h5>
+      <h4 className="text-center mb-3">
+        Job Analytics
+      </h4>
 
-      <Pie data={data} />
+      <Pie
+        data={data}
+        options={options}
+      />
     </div>
   );
 }
